@@ -9,6 +9,7 @@ spring:
   config:
     import:
       - aws-secretsmanager:/secrets/sshKeyForGit
+      - aws-secretsmanager:/secrets/keystorePassword
   cloud:
     config:
       server:
@@ -17,6 +18,7 @@ spring:
           default-label: main
           ignore-local-ssh-settings: true
           private-key: ${sshKeyForGit}
+
 
 logging:
   level:
@@ -29,3 +31,9 @@ cloud:
   aws:
     credentials:
       instance-profile: true
+      
+encrypt:
+  key-store:
+    location: classpath:sample-keystore.jks
+    alias: sample-key
+    password: ${keystorePassword}
