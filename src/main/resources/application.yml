@@ -1,0 +1,31 @@
+server:
+  port: 8888
+
+aws:
+  secretsmanager:
+    endpoint: secretsmanager.us-west-2.amazonaws.com
+
+spring:
+  config:
+    import:
+      - aws-secretsmanager:/secrets/sshKeyForGit
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com:kalikirisrikarreddy/config-repo.git
+          default-label: main
+          ignore-local-ssh-settings: true
+          private-key: ${sshKeyForGit}
+
+logging:
+  level:
+    io:
+      awspring:
+        cloud:
+          secretsmanager: debug
+
+cloud:
+  aws:
+    credentials:
+      instance-profile: true
